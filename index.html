@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع كمشكاة | تطوير الذات والكورسات</title>
+    
+    <!-- Google tag (gtag.js) - تمت الإضافة بواسطة Gemini -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7DX46N0YKE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-7DX46N0YKE');
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 
+        لأفضل تنظيم للملفات:
+        1. قم بإنشاء مجلد (folder) جديد بجوار ملف index.html وقم بتسميته "images".
+        2. ضع أيقونة الموقع (favicon) داخل مجلد "images" وقم بتسميتها "favicon.png".
+        3. ضع صورة الخلفية للشعار داخل مجلد "images" وقم بتسميتها "background-logo.png".
+     -->
+    <!-- Favicon (شعار الموقع) -->
+    <link rel="icon" href="images/favicon.png" type="image/png">
+
+    <script>
+        // إعدادات Tailwind CSS المخصصة لتضمين ألوان هويتك
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-white': '#ffffff',
+                        'brand-light-green': '#52835f',
+                        'brand-medium-green': '#006d4f',
+                        'brand-dark-green': '#004a33',
+                    },
+                    fontFamily: {
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles and Animations */
+        body {
+            font-family: 'tajawal', sans-serif;
+            background-color: #f8fafc; /* Light gray background */
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #004a33, #006d4f, #52835f);
+            background-size: 200% 200%;
+            animation: gradient-animation 10s ease infinite;
+            position: relative; /* Needed for the background image overlay */
+            overflow: hidden; /* Keeps the blurred image within the rounded corners */
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Animation for cards */
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Active Nav Link Style */
+        .nav-link-active {
+            color: #ffffff;
+            background-color: #004a33;
+        }
+        
+        .section {
+            display: none; /* Hide all sections by default */
+        }
+        .section.active {
+            display: block; /* Show only the active section */
+        }
+
+        /* Filter buttons style */
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .filter-btn.active-filter, .filter-btn:hover {
+            background-color: #004a33;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-brand-white text-brand-dark-green">
+
+    <!-- Header Section -->
+    <header class="bg-brand-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 space-x-reverse">
+                <img src="images/favicon.png" alt="شعار كمشكاة" class="h-10 w-10"> <!-- Updated to use local favicon -->
+                <span class="text-2xl font-extrabold text-brand-dark-green">كمشكاة</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                <a href="#home" class="nav-link text-lg font-bold text-brand-medium-green hover:text-brand-dark-green transition duration-300 px-3 py-2 rounded-md nav-link-active" onclick="showPage('home', this)">الرئيسية</a>
+                <a href="#courses" class="nav-link text-lg font-bold text-brand-medium-green hover:text-brand-dark-green transition duration-300 px-3 py-2 rounded-md" onclick="showPage('courses', this)">الكورسات</a>
+                <a href="#contact" class="nav-link text-lg font-bold text-brand-medium-green hover:text-brand-dark-green transition duration-300 px-3 py-2 rounded-md" onclick="showPage('contact', this)">تواصل معنا</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-brand-dark-green focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pb-4">
+            <a href="#home" class="block text-center text-lg font-bold text-brand-medium-green hover:bg-green-50 rounded-md py-2" onclick="showPage('home', this); closeMenu();">الرئيسية</a>
+            <a href="#courses" class="block text-center text-lg font-bold text-brand-medium-green hover:bg-green-50 rounded-md py-2 mt-2" onclick="showPage('courses', this); closeMenu();">الكورسات</a>
+            <a href="#contact" class="block text-center text-lg font-bold text-brand-medium-green hover:bg-green-50 rounded-md py-2 mt-2" onclick="showPage('contact', this); closeMenu();">تواصل معنا</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <!-- Home Section -->
+        <section id="home" class="section active text-center">
+            <div class="gradient-bg rounded-3xl p-10 md:p-20 text-white shadow-2xl">
+                <!-- هذا هو الجزء الخاص بالصورة الخلفية. قم بوضع الشعار في المسار الموضح -->
+                <div class="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-10 blur-lg" style="background-image: url('images/background-logo.png');"></div>
+                
+                <!-- هذا هو محتوى الهيدر، تم وضعه فوق الصورة لضمان ظهوره -->
+                <div class="relative z-10">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-pulse">استعن بالله ولا تعجز</h1>
+                    <p class="text-lg md:text-2xl mb-8 max-w-3xl mx-auto">محتوى عربي للشباب العربي. تعلم... اكتشف... انطلق!</p>
+                    <button onclick="showPage('courses', document.querySelector('.nav-link[href=\'#courses\']'))" class="bg-white text-brand-dark-green font-bold text-xl py-3 px-8 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 transform hover:scale-105">
+                        اكتشف الكورسات الآن
+                    </button>
+                </div>
+            </div>
+            <div class="mt-16">
+                 <h2 class="text-3xl font-bold text-center mb-8">لماذا كمشكاة؟</h2>
+                 <div class="grid md:grid-cols-3 gap-8">
+                     <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 card-hover-effect">
+                         <div class="text-brand-medium-green text-4xl mb-4"><i class="fas fa-lightbulb"></i></div>
+                         <h3 class="text-xl font-bold mb-2">محتوى ملهم</h3>
+                         <p class="text-gray-600">مقالات وفيديوهات لتطوير الذات وبناء عقلية إيجابية.</p>
+                     </div>
+                     <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 card-hover-effect">
+                         <div class="text-brand-medium-green text-4xl mb-4"><i class="fas fa-graduation-cap"></i></div>
+                         <h3 class="text-xl font-bold mb-2">كورسات مجانية</h3>
+                         <p class="text-gray-600">أفضل كوبونات خصم 100% لكورسات Udemy في مجالات مختلفة.</p>
+                     </div>
+                     <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 card-hover-effect">
+                         <div class="text-brand-medium-green text-4xl mb-4"><i class="fas fa-users"></i></div>
+                         <h3 class="text-xl font-bold mb-2">مجتمع داعم</h3>
+                         <p class="text-gray-600">انضم لمجتمع من الشباب الطموح يسعى للتعلم المستمر.</p>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="section">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold mb-2">كورسات Udemy المجانية</h2>
+                <p class="text-lg text-gray-600">اغتنم الفرصة! كوبونات خصم 100% لفترة محدودة.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div id="filter-buttons" class="flex justify-center flex-wrap gap-3 md:gap-4 mb-10">
+                <button class="filter-btn active-filter" onclick="filterCourses('all')">الكل</button>
+                <button class="filter-btn" onclick="filterCourses('برمجة')">برمجة وتطوير</button>
+                <button class="filter-btn" onclick="filterCourses('تسويق')">التسويق الرقمي</button>
+                <button class="filter-btn" onclick="filterCourses('تصميم')">التصميم</button>
+                <button class="filter-btn" onclick="filterCourses('أعمال')">ريادة وأعمال</button>
+                <button class="filter-btn" onclick="filterCourses('تطوير-الذات')">تطوير الذات</button>
+            </div>
+
+            <!-- Courses Grid -->
+            <div id="courses-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course cards will be dynamically added here from the user's list -->
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=Linux" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">امتحانات تدريبية لإدارة Linux (الجزء الثاني)</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">استعد لاختبار LPIC-1 Exam 102 مع مجموعة من الامتحانات العملية.</p>
+                        <a href="https://www.udemy.com/course/lpic-1-exam-102-part-2-linux-administration-practice-exams/?couponCode=CADDB0E9995A041922DB" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=CRO" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">زيادة مبيعاتك عبر تحسين معدل التحويل (CRO)</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم كيفية تحسين موقعك لزيادة المبيعات والعملاء المحتملين.</p>
+                        <a href="https://www.udemy.com/course/lpic-1-exam-102-part-2-linux-administration-practice-exams/?couponCode=CADDB0E9995A041922DB" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=Analytics" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">تحليل بيانات الويب مع Similarweb: من مبتدئ لمحترف</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">أتقن تحليل المنافسين وفهم جمهورك باستخدام أداة Similarweb.</p>
+                        <a href="https://www.udemy.com/course/web-analytics-with-similarweb-from-basic-to-pro/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=Google" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">إتقان Google My Business لشركتك</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم كيفية استخدام "نشاطي التجاري على جوجل" لجذب المزيد من العملاء.</p>
+                        <a href="https://www.udemy.com/course/google-my-business-how-to-master-powerful-tool-for-company/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=LinkedIn" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">كيفية إنشاء حملة تسويق مثالية على لينكدإن</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">استهدف العملاء المحتملين بدقة وقم ببناء حملات ناجحة على LinkedIn.</p>
+                        <a href="https://www.udemy.com/course/how-to-create-your-perfect-linkedin-outreach-campaign/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=ABM" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">التسويق الموجه للحسابات (ABM): زيادة كفاءة B2B</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم استراتيجيات التسويق الموجه للشركات الكبرى لتحقيق نتائج أفضل.</p>
+                        <a href="https://www.udemy.com/course/account-based-marketing-increase-your-b2b-efficiency/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تسويق">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=Automation" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التسويق الرقمي</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">أتمتة التسويق الرقمي: كن متقدمًا على منافسيك</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">وفر الوقت والجهد عبر أتمتة حملاتك التسويقية بفعالية.</p>
+                        <a href="https://www.udemy.com/course/digital-marketing-automation-one-step-ahead-of-competitors/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="أعمال">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=Etsy" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">ريادة وأعمال</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Etsy: الدليل النهائي لتعزيز عملك</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم أسرار البيع والترويج لمنتجاتك على منصة Etsy الشهيرة.</p>
+                        <a href="https://www.udemy.com/course/etsy-promotion/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تصميم">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=Figma" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التصميم</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">دورة فيجما الكاملة: مشاريع ويب وموبايل من الصفر</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">أتقن تصميم الواجهات وتجربة المستخدم من خلال مشاريع عملية على Figma.</p>
+                        <a href="https://www.udemy.com/course/figma-practical-design/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="أعمال">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=Excel" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">ريادة وأعمال</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">الدليل الشامل لبرنامج Microsoft Excel</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">من الأساسيات إلى التقنيات المتقدمة، كن خبيرًا في استخدام إكسل.</p>
+                        <a href="https://www.udemy.com/course/excel-guide/?couponCode=01OCTOBER2025" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=Django" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">أساسيات Django: بناء ونشر تطبيقات حقيقية</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم إطار العمل Django لبناء تطبيقات ويب قوية وقابلة للتطوير.</p>
+                        <a href="https://www.udemy.com/course/mastering-django/?couponCode=AR_FREE_51" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=Dart" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">لغة برمجة Dart من الصفر (باللغة العربية)</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">ابدأ رحلتك في برمجة تطبيقات الموبايل بتعلم لغة Dart أساس Flutter.</p>
+                        <a href="https://www.udemy.com/course/dart-programming-language-from-zero_in_arabic/?couponCode=F6A2DB53F55DFE712865" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                 <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=HTML5" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">إتقان HTML5 في 2025: من مبتدئ إلى متقدم</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم أساسيات وهيكلة صفحات الويب باستخدام أحدث إصدار من HTML.</p>
+                        <a href="https://www.udemy.com/course/mastering-html5-in-2025-from-beginner-to-advanced-web-devel/?couponCode=NEWUDEMYOCTFREE" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تطوير-الذات">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=Mental+Health" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">تطوير الذات</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">دبلوم في الصحة النفسية في العمل والحياة الشخصية</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم كيفية الحفاظ على صحتك النفسية والتوازن بين العمل والحياة.</p>
+                        <a href="https://www.udemy.com/course/workplace-mental-health-skills-certification-course/" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                 <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="أعمال">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=Trading" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">ريادة وأعمال</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">تداول أنماط الشموع اليابانية بدقة 95%</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم قراءة الرسوم البيانية واتخاذ قرارات تداول مدروسة في أي سوق.</p>
+                        <a href="https://www.udemy.com/course/trade-candlestick-patterns-with-95-accuracy-in-any-market/?couponCode=OPENFORALL" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="أعمال">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=Banking" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">ريادة وأعمال</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">دبلوم مهني في رقمنة الخدمات المصرفية للأفراد</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">استكشف مستقبل التكنولوجيا المالية والتحول الرقمي في قطاع البنوك.</p>
+                        <a href="https://www.udemy.com/course/digitisation/?couponCode=B20351F55C76CA00DF54" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=Flutter" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">إتقان الرسم والتصميم المخصص في Flutter</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعمق في واجهات المستخدم المخصصة والرسوميات باستخدام Flutter.</p>
+                        <a href="https://www.udemy.com/course/mastering-painting-in-flutter/?couponCode=39AEF4D59BDAFA26BD88" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="برمجة">
+                    <img src="https://placehold.co/600x400/006d4f/ffffff?text=Flutter+AR" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">برمجة وتطوير</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">Flutter للمبتدئين باللغة العربية</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">ابدأ في بناء تطبيقات جميلة تعمل على أندرويد و iOS من كود واحد.</p>
+                        <a href="https://www.udemy.com/course/flutter-for-beginner-in-arabic/?couponCode=234F0F8EC8D9D8538252" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تصميم">
+                    <img src="https://placehold.co/600x400/52835f/ffffff?text=Onshape" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التصميم</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">دورة Onshape الكاملة للمبتدئين: نهج قائم على المشاريع</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم التصميم الهندسي ثلاثي الأبعاد (CAD) من خلال مشاريع عملية.</p>
+                        <a href="https://www.udemy.com/course/complete-onshape-for-beginners-project-based-approach/?couponCode=8284F2392B1CBE6E8EF7" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-2xl shadow-lg overflow-hidden card-hover-effect border border-gray-100 flex flex-col" data-category="تصميم">
+                    <img src="https://placehold.co/600x400/004a33/ffffff?text=AutoCAD" alt="صورة الكورس" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <span class="text-sm bg-green-100 text-brand-dark-green px-3 py-1 rounded-full font-semibold self-start">التصميم</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">إتقان AutoCAD 2D و 3D للمبتدئين</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3 flex-grow">تعلم أساسيات الرسم الهندسي ثنائي وثلاثي الأبعاد باستخدام أوتوكاد.</p>
+                        <a href="https://www.udemy.com/course/mastering-autocad-2d-3d-for-beginners/?couponCode=29891BB4A7354E7E4D12" target="_blank" class="block w-full text-center bg-brand-medium-green text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark-green transition duration-300 mt-auto">الحصول على الكورس مجانًا <i class="fas fa-arrow-left mr-2"></i></a>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-4xl font-extrabold mb-2">تواصل معنا</h2>
+                <p class="text-lg text-gray-600 mb-10">يسعدني تواصلك! تابعني على المنصات المختلفة لمحتوى أكثر، أو أرسل استفسارك مباشرة.</p>
+                <div class="flex justify-center flex-wrap gap-6">
+                    <a href="https://api.whatsapp.com/send/?phone=201023443160" target="_blank" class="text-5xl text-gray-500 hover:text-green-500 transition duration-300 transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/MostafaKmshkat" target="_blank" class="text-5xl text-gray-500 hover:text-blue-600 transition duration-300 transform hover:scale-110"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/mostafakamishka/" target="_blank" class="text-5xl text-gray-500 hover:text-blue-700 transition duration-300 transform hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/mostafakmshkat/" target="_blank" class="text-5xl text-gray-500 hover:text-pink-500 transition duration-300 transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/Mostafakamishka" target="_blank" class="text-5xl text-gray-500 hover:text-black transition duration-300 transform hover:scale-110"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-brand-dark-green text-white mt-16">
+        <div class="container mx-auto px-6 py-6 text-center">
+            <p>&copy; 2024 موقع كمشكاة. كل الحقوق محفوظة.</p>
+            <p>تم التصميم بحب لمساعدة الشباب العربي على النمو.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Page Navigation, Mobile Menu, and Course Filtering
+
+        const pages = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Function to show the selected page
+        function showPage(pageId, clickedLink) {
+            pages.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            if (clickedLink) {
+                navLinks.forEach(link => link.classList.remove('nav-link-active'));
+                clickedLink.classList.add('nav-link-active');
+            }
+            
+            window.scrollTo(0, 0); // Scroll to top on page change
+        }
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Course Filtering Function
+        function filterCourses(category) {
+            const courseCards = document.querySelectorAll('#courses-grid .course-card');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+
+            // Update active button style
+            filterButtons.forEach(button => {
+                if (button.getAttribute('onclick') === `filterCourses('${category}')`) {
+                    button.classList.add('active-filter');
+                } else {
+                    button.classList.remove('active-filter');
+                }
+            });
+
+            // Show/Hide course cards based on category
+            courseCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex'; // Use 'flex' because the card is a flex container
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Set the default page on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home', document.querySelector('.nav-link[href="#home"]'));
+        });
+    </script>
+</body>
+</html>
+
